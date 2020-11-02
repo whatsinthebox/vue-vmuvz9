@@ -1,0 +1,80 @@
+<v-layout column align-center>
+  <v-form
+      ref="form"
+      v-model="valid"
+      :lazy-validation="false"
+      autocomplete="off"
+  >
+    <v-text-field class="ma-0"
+                  height="25"
+                  v-model="form.price"
+                  :rules="formValidation.priceRules"
+                  label="Price"
+                  required
+    ></v-text-field>
+    <br>
+    <v-text-field class="ma-0"
+                  height="25"
+                  v-model="form.contracts"
+                  :rules="formValidation.contractsRules"
+                  label="Quantity"
+                  required
+    ></v-text-field>
+    <br>
+    <v-text-field class="ma-0"
+                  height="25"
+                  :hint="tpProfit"
+                  persistent-hint
+                  v-model="form.takeProfit"
+                  :rules="formValidation.takeProfitRules"
+                  label="Take Profit"
+    ></v-text-field>
+    <br>
+    <v-text-field class="ma-0"
+                  height="25"
+                  :hint="slLoss"
+                  persistent-hint
+                  v-model="form.stopLoss"
+                  :rules="formValidation.stopLossRules"
+                  label="Stop Loss"
+    ></v-text-field>
+    <v-select class="ma-0"
+              height="25"
+              v-model="form.time_in_force"
+              :items="form.timeInForceItems"
+              item-text="text"
+              item-value="value"
+              :rules="[v => !!v || 'Time In Force is required']"
+              label="Time In Force"
+              required
+    ></v-select>
+    <v-layout row wrap justify-space-around class="ma-0 pa-0" style="height: 44px">
+      <v-switch ma-2 v-model="form.reduceOnly" class="ma-0" color="primary" label="Reduce-only"></v-switch>
+    </v-layout>
+    <v-layout wrap align-center>
+      <v-btn
+          :disabled="!valid"
+          color="success"
+          class="ma-2"
+          @click="buy"
+      >
+        Buy / Long
+      </v-btn>
+      <v-btn
+          color="darkgrey"
+          class="ma-2"
+          @click="reset"
+      >
+        Reset
+      </v-btn>
+      <v-btn
+          :disabled="!valid"
+          color="error"
+          class="ma-2"
+          @click="sell"
+      >
+        Sell / Short
+      </v-btn>
+    </v-layout>
+  </v-form>
+</v-layout>

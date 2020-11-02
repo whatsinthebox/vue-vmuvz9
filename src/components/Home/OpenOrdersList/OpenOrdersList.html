@@ -1,0 +1,50 @@
+<section class="open-orders-list">
+  <v-layout align-center justify-space-between row ml-2 mr-2 mb-2>
+    <span class="font-weight-light">Open Orders ( {{sum($bybitApi.openOrders.filter(order => order.side === 'Buy'), 'qty')}} Long / {{sum($bybitApi.openOrders.filter(order => order.side === 'Sell'), 'qty')}} Short )</span>
+    <div>
+      <v-btn small
+             :disabled="$bybitApi.openOrders.length === 0"
+             color="success"
+             class="mr-2"
+             @click="$bybitApi.cancelAllBuyOpenOrders()"
+      >
+        Cancel Buys
+      </v-btn>
+      
+      
+      <v-btn small
+             :disabled="$bybitApi.openOrders.length === 0"
+             color="error"
+             class="mr-2"
+             @click="$bybitApi.cancelAllSellOpenOrders()"
+      >
+        Cancel Sells
+      </v-btn>
+      
+      <v-btn small
+             :disabled="$bybitApi.openOrders.length === 0"
+             color="primary"
+             @click="$bybitApi.cancelAllOpenOrders()"
+      >
+        Cancel All
+      </v-btn>
+    </div>
+  </v-layout>
+  
+  <v-data-table
+      :headers="headers"
+      :items="$bybitApi.openOrders"
+      :items-per-page="10"
+  >
+    <template v-slot:item.cancel="{ item }">
+      <v-btn small
+             color="primary"
+             class="mr-4"
+             @click="$bybitApi.cancelOrder(item.order_id)"
+      >
+        Cancel
+      </v-btn>
+    </template>
+  </v-data-table>
+</section>
+
